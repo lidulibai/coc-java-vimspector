@@ -1,0 +1,248 @@
+{
+  "name": "coc-java-vimspector",
+  "version": "0.1.0",
+  "description": "Java langauage debugging extension for coc.nvim",
+  "author": "lidulibai <499877253@qq.com>",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "keywords": [
+    "coc.nvim",
+    "java",
+    "debug",
+    "debugging",
+    "debugger"
+  ],
+  "engines": {
+    "coc": "^0.0.80"
+  },
+  "scripts": {
+    "lint": "eslint src --ext ts",
+    "clean": "rimraf lib",
+    "watch": "webpack --watch",
+    "build": "webpack",
+    "prepare": "npm-run-all clean build"
+  },
+  "prettier": {
+    "singleQuote": true,
+    "printWidth": 120,
+    "semi": true
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.14.167",
+    "@typescript-eslint/eslint-plugin": "^4.8.2",
+    "@typescript-eslint/parser": "^4.8.2",
+    "coc.nvim": "^0.0.80",
+    "eslint": "^7.14.0",
+    "eslint-config-prettier": "^7.1.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^2.2.0",
+    "rimraf": "^3.0.2",
+    "ts-loader": "^8.0.11",
+    "typescript": "^4.1.2",
+    "webpack": "^5.9.0",
+    "webpack-cli": "^4.2.0"
+  },
+  "activationEvents": [
+    "onLanguage:java"
+  ],
+  "contributes": {
+    "breakpoints": [
+      {
+        "language": "java"
+      }
+    ],
+    "javaExtensions": [
+      "./server/com.microsoft.java.debug.plugin-0.29.0.jar"
+    ],
+    "configuration": {
+        "type": "object",
+        "title": "coc-java-vimspector configuration",
+        "properties": {
+            "launch.configurations": {
+                "type": "array",
+                "title": "coc-java-vimspector launch configuration",
+                "default": [],
+                "description": "Configuration list"
+            },
+            "java.debug.logLevel": {
+              "type": "string",
+              "default": "warn",
+              "description": "%java.debugger.configuration.logLevel.description%",
+              "enum": [
+                "error",
+                "warn",
+                "info",
+                "verbose"
+              ]
+            },
+            "java.debug.settings.showHex": {
+              "type": "boolean",
+              "description": "%java.debugger.configuration.showHex.description%",
+              "default": false
+            },
+            "java.debug.settings.showStaticVariables": {
+              "type": "boolean",
+              "description": "%java.debugger.configuration.showStaticVariables.description%",
+              "default": false
+            },
+            "java.debug.settings.showQualifiedNames": {
+              "type": "boolean",
+              "description": "%java.debugger.configuration.showQualifiedNames.description%",
+              "default": false
+            },
+            "java.debug.settings.showLogicalStructure": {
+              "type": "boolean",
+              "description": "%java.debugger.configuration.showLogicalStructure.description%",
+              "default": true
+            },
+            "java.debug.settings.showToString": {
+              "type": "boolean",
+              "description": "%java.debugger.configuration.showToString.description%",
+              "default": true
+            },
+            "java.debug.settings.maxStringLength": {
+              "type": "number",
+              "description": "%java.debugger.configuration.maxStringLength.description%",
+              "default": 0
+            },
+            "java.debug.settings.numericPrecision": {
+              "type": "number",
+              "description": "%java.debugger.configuration.numericPrecision.description%",
+              "default": 0
+            },
+            "java.debug.settings.hotCodeReplace": {
+              "type": "string",
+              "default": "manual",
+              "description": "%java.debugger.configuration.hotCodeReplace.description%",
+              "enum": [
+                "auto",
+                "manual",
+                "never"
+              ]
+            },
+            "java.debug.settings.enableRunDebugCodeLens": {
+              "type": "boolean",
+              "description": "%java.debugger.configuration.enableRunDebugCodeLens.description%",
+              "default": true
+            },
+            "java.debug.settings.forceBuildBeforeLaunch": {
+              "type": "boolean",
+              "description": "%java.debugger.configuration.forceBuildBeforeLaunch%",
+              "default": true
+            },
+            "java.debug.settings.onBuildFailureProceed": {
+              "type": "boolean",
+              "description": "%java.debugger.configuration.onBuildFailureProceed%",
+              "default": false
+            },
+            "java.debug.settings.console": {
+              "type": "string",
+              "enum": [
+                "internalConsole",
+                "integratedTerminal",
+                "externalTerminal"
+              ],
+              "enumDescriptions": [
+                "%java.debugger.launch.internalConsole.description%",
+                "%java.debugger.launch.integratedTerminal.description%",
+                "%java.debugger.launch.externalTerminal.description%"
+              ],
+              "description": "%java.debugger.configuration.console%",
+              "default": "integratedTerminal"
+            },
+            "java.debug.settings.exceptionBreakpoint.skipClasses": {
+              "type": "array",
+              "description": "%java.debugger.configuration.exceptionBreakpoint.skipClasses%",
+              "items": {
+                "anyOf": [
+                  {
+                    "enum": [
+                      "$JDK",
+                      "$Libraries",
+                      "java.lang.ClassLoader",
+                      ""
+                    ],
+                    "enumDescriptions": [
+                      "%java.debugger.launch.skipClasses.skipJDK%",
+                      "%java.debugger.launch.skipClasses.skipLibraries%",
+                      "%java.debugger.launch.skipClasses.skipClassLoader%",
+                      "%java.debugger.launch.skipClasses.skipClassPattern%"
+                    ]
+                  },
+                  "string"
+                ]
+              },
+              "default": []
+            },
+            "java.debug.settings.stepping.skipClasses": {
+              "type": "array",
+              "description": "%java.debugger.launch.skipClasses.description%",
+              "items": {
+                "anyOf": [
+                  {
+                    "enum": [
+                      "$JDK",
+                      "$Libraries",
+                      "java.lang.ClassLoader",
+                      ""
+                    ],
+                    "enumDescriptions": [
+                      "%java.debugger.launch.skipClasses.skipJDK%",
+                      "%java.debugger.launch.skipClasses.skipLibraries%",
+                      "%java.debugger.launch.skipClasses.skipClassLoader%",
+                      "%java.debugger.launch.skipClasses.skipClassPattern%"
+                    ]
+                  },
+                  "string"
+                ]
+              },
+              "default": []
+            },
+            "java.debug.settings.stepping.skipSynthetics": {
+              "type": "boolean",
+              "description": "%java.debugger.launch.skipSynthetics.description%",
+              "default": false
+            },
+            "java.debug.settings.stepping.skipStaticInitializers": {
+              "type": "boolean",
+              "description": "%java.debugger.launch.skipStaticInitializers.description%",
+              "default": false
+            },
+            "java.debug.settings.stepping.skipConstructors": {
+              "type": "boolean",
+              "description": "%java.debugger.launch.skipConstructors.description%",
+              "default": false
+            },
+            "java.debug.settings.jdwp.limitOfVariablesPerJdwpRequest": {
+              "type": "number",
+              "description": "%java.debugger.configuration.jdwp.limitOfVariablesPerJdwpRequest.description%",
+              "default": 100,
+              "minimum": 1
+            },
+            "java.debug.settings.jdwp.requestTimeout": {
+              "type": "number",
+              "description": "%java.debugger.configuration.jdwp.requestTimeout.description%",
+              "default": 3000,
+              "minimum": 100
+            },
+            "java.debug.settings.vmArgs": {
+              "type": "string",
+              "description": "%java.debugger.configuration.vmArgs.description%",
+              "default": ""
+            },
+            "java.silentNotification": {
+              "type": "boolean",
+              "description": "%java.debugger.configuration.silentNotification%",
+              "default": false
+            }
+        }
+    },
+    "commands": [
+      {
+        "command": "coc-java-vimspector.Command",
+        "title": "coc-java-vimspector command title"
+      }
+    ]
+  }
+}
