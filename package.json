@@ -4,6 +4,10 @@
   "description": "Java langauage debugging extension for coc.nvim",
   "author": "lidulibai <499877253@qq.com>",
   "license": "MIT",
+  "repository": {
+      "type": "git",
+      "url": "https://github.com/lidulibai/coc-java-vimspector"
+  },
   "main": "lib/index.js",
   "keywords": [
     "coc.nvim",
