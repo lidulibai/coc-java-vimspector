@@ -34,6 +34,7 @@ async function addToClasspath(uri: Uri): Promise<boolean> {
   }
 
   const parentUri = Uri.file(parentFsPath);
+  console.log(parentUri.toString());
   let parentPath = parentUri.path;
   if (parentPath === parentUri.fsPath) {
     parentPath = path.basename(parentFsPath);

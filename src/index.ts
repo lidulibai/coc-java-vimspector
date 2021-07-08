@@ -7,12 +7,13 @@ import {
   workspace,
   WorkspaceConfiguration,
   WorkspaceFolder,
+  Document
 } from 'coc.nvim';
-import * as path from 'path';
 import _ from 'lodash';
-import DemoList from './lists';
-import { IMainClassOption, resolveMainMethod } from './languageServerPlugin';
+import * as path from 'path';
 import { DebugConfiguration, startDebugging } from './debugCodeLensProvider';
+import { IMainClassOption, resolveMainMethod } from './languageServerPlugin';
+import DemoList from './lists';
 import * as utility from './utility';
 import * as vimspector from './vimspectorPlugin';
 
@@ -56,7 +57,16 @@ export async function activate(context: ExtensionContext): Promise<void> {
 
 export async function runJavaFile(uri: string, noDebug: boolean) {
   // TODO: check extentions is activated
-  // TODO: check current file is java file
+  // check current file is java file
+  let currentFile = await workspace.nvim.eval('expand("%:p")');
+  if (!uri && _.endsWith(path.basename(currentFile.toString()), '.java')) {
+    uri = currentFile.toString();
+  }
+  console.info(uri);
+
+  if (!uri) {
+    window.showErrorMessage(`${noDebug ? 'Run' : 'Debug'} failed. Please open a Java file with main method first.`);
+  }
   const mainClasses: IMainClassOption[] = await resolveMainMethod(Uri.file(uri));
   const placeHolder = `The file '${path.basename(uri)}' is not executable, please select a main class you want to run.`;
   await launchMain(mainClasses, Uri.parse(uri), noDebug, placeHolder);
