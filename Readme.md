@@ -35,37 +35,6 @@ A lightweight Java Debugger based on [Java Debug Server](https://github.com/Micr
 
 ## Use
 
-- create a default java typ config file named `java.json` : `</path/to/vimspect>/configurations/<os>/java` .
-```json
-{
-    "configurations": {
-        "default": {
-            "adapter": "vscode-java",
-            "breakpoints": {
-                "exception": {
-                    "caught": "N",
-                    "uncaught": "N"
-                }
-            },
-            "configuration": {
-            }
-        }
-    }
-}
-```
-- edit file named `gadgets.json` : `</path/to/vimspector>/gadgets/<os>/` change "vscode-java" to 
-```json
-    "vscode-java": {
-      "configuration": {
-        "request": "${request}",
-        "cwd": "${workspaceRoot}",
-        "classPaths": ["*${classPathString}"],
-        "mainClass":"${mainClass}"
-      },
-      "name": "vscode-java",
-      "port": "${DAPPort}"
-    }
-```
 - Launch Vim or Nvim
 - Open a Java project (Maven/Gradle/Eclipse)
 - Open a Java file to activate the extensions

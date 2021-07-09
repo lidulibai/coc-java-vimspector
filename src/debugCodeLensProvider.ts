@@ -1,9 +1,9 @@
+import {commands, Uri, window, workspace as Workspace, WorkspaceFolder} from 'coc.nvim';
 import _ from 'lodash';
 import path from 'path';
-import fs from 'fs';
-import { commands, Uri, window, workspace as Workspace, WorkspaceFolder } from 'coc.nvim';
-import { isOnClasspath } from './languageServerPlugin';
+import {isOnClasspath} from './languageServerPlugin';
 import * as vimspector from './vimspectorPlugin';
+import fs from 'fs';
 
 export async function startDebugging(
   mainClass: string,
@@ -120,8 +120,7 @@ async function constructDebugConfig(
       type: 'java',
       name: `CodeLens (Launch) - ${mainClass.substr(mainClass.lastIndexOf('.') + 1)}`,
       request: 'launch',
-      adapter: 'vscode-java',
-      console: 'internalConsole',
+      console: 'externalTerminal',
       mainClass,
       projectName,
     };
@@ -133,13 +132,7 @@ async function constructDebugConfig(
         const rawConfigsCopy = _.cloneDeep(rawConfigs);
         rawConfigsCopy.splice(0, 0, debugConfig);
         launchConfigurations.update('configurations', rawConfigsCopy);
-        // fs.open(Workspace.root + '/.vimspector.json', 'w', (_err, fd) => {
-        // const buff = Buffer.from(JSON.stringify(launchConfigurations), 'utf-8');
-        // fs.write(fd, buff, 0, buff.length, null, () => {
-        // window.showMessage('update .vimspector.json ...');
-        // });
-        // });
-        // await launchConfigurations.update('configurations', rawConfigs);
+        fs.writeFileSync(Workspace.root + '/.vimspector.json', buildVimspectorConfig(rawConfigsCopy));
       } catch (error) {
         window.showErrorMessage(error);
         // When launch.json has unsaved changes before invoking the update api, it will throw the error below:
@@ -150,6 +143,29 @@ async function constructDebugConfig(
   }
 
   return _.cloneDeep(debugConfig);
+}
+
+function buildVimspectorConfig(rawConfigs : DebugConfiguration[]): string {
+    let vimspectorJson = {};
+    let configurations = {};
+    rawConfigs.forEach(config => {
+        configurations[config.name] = {
+            "adapter": "vscode-java",
+            "default": true,
+            "breakpoints": {
+                "exception": {
+                    "caught": "N",
+                    "uncaught": "N"
+                }
+            },
+            "configuration": {
+            "classPaths": ["*${classPathString}"],
+                ...config
+            }
+        };
+    })
+    vimspectorJson["configurations"] = configurations;
+    return JSON.stringify(vimspectorJson, null, '\t');
 }
 
 async function launchJsonExists(workspace: Uri | undefined): Promise<boolean> {

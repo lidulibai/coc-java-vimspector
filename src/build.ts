@@ -8,9 +8,16 @@ const JAVA_DEBUG_CONFIGURATION = 'java.debug.settings';
 const ON_BUILD_FAILURE_PROCEED = 'onBuildFailureProceed';
 
 export async function buildWorkspace(): Promise<boolean> {
-  await commands.executeJavaExtensionCommand(commands.JAVA_BUILD_WORKSPACE, false);
+  try {
+      // this command does not return the result or accept call back function
+    await commands.executeJavaExtensionCommand(commands.JAVA_BUILD_WORKSPACE, false);
+    return true;
+  } catch (e) {
+    /* handle error */
+    window.showErrorMessage("Build error...");
+    return false;
+  }
 
-  return true;
   // return handleBuildFailure(buildResult.operationId, buildResult.error);
 }
 

@@ -1,18 +1,17 @@
 import {
-  commands,
-  ExtensionContext,
-  listManager,
-  Uri,
-  window,
-  workspace,
-  WorkspaceConfiguration,
-  WorkspaceFolder,
-  Document
+    commands,
+    ExtensionContext,
+    listManager,
+    Uri,
+    window,
+    workspace,
+    WorkspaceConfiguration,
+    WorkspaceFolder
 } from 'coc.nvim';
 import _ from 'lodash';
 import * as path from 'path';
-import { DebugConfiguration, startDebugging } from './debugCodeLensProvider';
-import { IMainClassOption, resolveMainMethod } from './languageServerPlugin';
+import {DebugConfiguration, startDebugging} from './debugCodeLensProvider';
+import {IMainClassOption, resolveMainMethod} from './languageServerPlugin';
 import DemoList from './lists';
 import * as utility from './utility';
 import * as vimspector from './vimspectorPlugin';
