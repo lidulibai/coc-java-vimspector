@@ -38,7 +38,7 @@ A lightweight Java Debugger based on [Java Debug Server](https://github.com/Micr
 - Launch Vim or Nvim
 - Open a Java project (Maven/Gradle/Eclipse)
 - Open a Java file to activate the extensions
-- Press F5 or :CocList mainClassListRun and select class to start
+- :CocList mainClassListRun and select class to start
 
 Please also check the documentation of [Language Support for Java by Red Hat](https://marketplace.visualstudio.com/items?itemName=redhat.java) if you have trouble setting up your project.
 

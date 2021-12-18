@@ -13,7 +13,6 @@ export async function startVimspector(
   } else if (typeof nameOrConfiguration !== 'string') {
     debugConfig = await configuration.resolveAndValidateDebugConfiguration(folder, nameOrConfiguration);
   }
-  window.showMessage("===debugConfig : " + debugConfig);
   if (typeof debugConfig == 'undefined') {
     window.showMessage('debug configuration undefined');
     return;
