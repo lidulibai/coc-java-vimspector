@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT license.
 
-import { commands, extensions, workspace, Extension, ExtensionInfo, ExtensionState } from 'coc.nvim';
+import {commands, extensions, workspace, Extension, ExtensionInfo, ExtensionState} from 'coc.nvim';
 import * as utility from './utility';
 
 export const VSCODE_STARTDEBUG = 'vscode.startDebug';
@@ -60,17 +60,17 @@ export const JAVA_DEBUG_VIMSPECTOR_START = 'java.debug.vimspector.start1';
 export const EXECUTE_WORKSPACE_COMMAND = 'java.execute.workspaceCommand';
 
 export function executeJavaLanguageServerCommand(...rest) {
-  return executeJavaExtensionCommand(JAVA_EXECUTE_WORKSPACE_COMMAND, ...rest);
+    return executeJavaExtensionCommand(JAVA_EXECUTE_WORKSPACE_COMMAND, ...rest);
 }
 
 export async function executeJavaExtensionCommand(commandName: string, ...rest) {
-  // TODO: need to handle error and trace telemetry
-  // const javaExtension = utility.getJavaExtension();
-  // if (!javaExtension) {
-  // workspace.showMessage(`Cannot execute command ${commandName}, VS Code Java Extension is not enabled.`);
-  // }
-  // if (!javaExtension.isActive) {
-  // await javaExtension.activate();
-  // }
-  return commands.executeCommand(commandName, ...rest);
+    // TODO: need to handle error and trace telemetry
+    // const javaExtension = utility.getJavaExtension();
+    // if (!javaExtension) {
+    // workspace.showMessage(`Cannot execute command ${commandName}, VS Code Java Extension is not enabled.`);
+    // }
+    // if (!javaExtension.isActive) {
+    // await javaExtension.activate();
+    // }
+    return commands.executeCommand(commandName, ...rest);
 }

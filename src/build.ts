@@ -1,5 +1,5 @@
 import * as path from 'path';
-import { commands as Commands, diagnosticManager, DiagnosticSeverity, window, workspace } from 'coc.nvim';
+import {commands as Commands, diagnosticManager, DiagnosticSeverity, window, workspace} from 'coc.nvim';
 
 import * as commands from './commands';
 import * as lsPlugin from './languageServerPlugin';
@@ -8,55 +8,55 @@ const JAVA_DEBUG_CONFIGURATION = 'java.debug.settings';
 const ON_BUILD_FAILURE_PROCEED = 'onBuildFailureProceed';
 
 export async function buildWorkspace(): Promise<boolean> {
-  try {
-      // this command does not return the result or accept call back function
-    await commands.executeJavaExtensionCommand(commands.JAVA_BUILD_WORKSPACE, false);
-    return true;
-  } catch (e) {
-    /* handle error */
-    window.showErrorMessage("Build error...");
-    return false;
-  }
+    try {
+        // this command does not return the result or accept call back function
+        await commands.executeJavaExtensionCommand(commands.JAVA_BUILD_WORKSPACE, false);
+        return true;
+    } catch (e) {
+        /* handle error */
+        window.showErrorMessage("Build error...");
+        return false;
+    }
 
-  // return handleBuildFailure(buildResult.operationId, buildResult.error);
+    // return handleBuildFailure(buildResult.operationId, buildResult.error);
 }
 
 async function handleBuildFailure(operationId: string, err: any): Promise<boolean> {
-  const configuration = workspace.getConfiguration(JAVA_DEBUG_CONFIGURATION);
-  const onBuildFailureProceed = configuration.get<boolean>(ON_BUILD_FAILURE_PROCEED);
+    const configuration = workspace.getConfiguration(JAVA_DEBUG_CONFIGURATION);
+    const onBuildFailureProceed = configuration.get<boolean>(ON_BUILD_FAILURE_PROCEED);
 
-  window.showErrorMessage('Build failed');
-  if (
-    !onBuildFailureProceed &&
-    (err === lsPlugin.CompileWorkspaceStatus.WITHERROR || err === lsPlugin.CompileWorkspaceStatus.FAILED)
-  ) {
-    if (checkErrorsReportedByJavaExtension()) {
-      Commands.executeCommand('workbench.actions.view.problems');
+    window.showErrorMessage('Build failed');
+    if (
+        !onBuildFailureProceed &&
+        (err === lsPlugin.CompileWorkspaceStatus.WITHERROR || err === lsPlugin.CompileWorkspaceStatus.FAILED)
+    ) {
+        if (checkErrorsReportedByJavaExtension()) {
+            Commands.executeCommand('workbench.actions.view.problems');
+        }
+
+        const ans = await window.showErrorMessage('Build failed, do you want to continue?', 'Proceed', 'Fix...', 'Cancel');
+        if (ans === 'Proceed') {
+            return true;
+        } else if (ans === 'Fix...') {
+            // showFixSuggestions(operationId);
+        }
+
+        return false;
     }
 
-    const ans = await window.showErrorMessage('Build failed, do you want to continue?', 'Proceed', 'Fix...', 'Cancel');
-    if (ans === 'Proceed') {
-      return true;
-    } else if (ans === 'Fix...') {
-      // showFixSuggestions(operationId);
-    }
-
-    return false;
-  }
-
-  return true;
+    return true;
 }
 
 function checkErrorsReportedByJavaExtension(): boolean {
-  const problems = diagnosticManager.getDiagnostics(workspace.root) || [];
-  for (const problem of problems) {
-    const fileName = path.basename(problem[0].fsPath || '');
-    if (fileName.endsWith('.java') || fileName === 'pom.xml' || fileName.endsWith('.gradle')) {
-      if (problem[1].filter((diagnostic) => diagnostic.severity === DiagnosticSeverity.Error).length) {
-        return true;
-      }
+    const problems = diagnosticManager.getDiagnostics(workspace.root) || [];
+    for (const problem of problems) {
+        const fileName = path.basename(problem[0].fsPath || '');
+        if (fileName.endsWith('.java') || fileName === 'pom.xml' || fileName.endsWith('.gradle')) {
+            if (problem[1].filter((diagnostic) => diagnostic.severity === DiagnosticSeverity.Error).length) {
+                return true;
+            }
+        }
     }
-  }
 
-  return false;
+    return false;
 }
