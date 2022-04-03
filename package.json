@@ -1,6 +1,6 @@
 {
   "name": "coc-java-vimspector",
-  "version": "0.1.5",
+  "version": "0.2.0",
   "description": "Java langauage debugging extension for coc.nvim",
   "author": "lidulibai <499877253@qq.com>",
   "license": "MIT",
