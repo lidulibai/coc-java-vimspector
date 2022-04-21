@@ -1,7 +1,13 @@
 # coc-java-vimspector
 
 Fork of [vscode-java-debug](https://github.com/microsoft/vscode-java-debug) to
-works with [coc.vim](https://github.com/neoclide/coc.nvim).
+works with [coc.vim](https://github.com/neoclide/coc.nvim)
+and [coc-java](https://github.com/neoclide/coc-java)
+
+
+
+https://user-images.githubusercontent.com/14270445/164477764-04025fec-2af7-4251-b511-98209958e001.mov
+
 
 ## Overview
 A lightweight Java Debugger based on [Java Debug Server](https://github.com/Microsoft/java-debug) which extends the [Language Support for Java by Red Hat](https://marketplace.visualstudio.com/items?itemName=redhat.java). It allows users to debug Java code using Visual Studio Code (VS Code). Here's a list of features:
