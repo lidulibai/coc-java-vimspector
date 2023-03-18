@@ -1,3 +1,5 @@
+# !! DEPRECATED
+I use [neovim](https://github.com/neovim/neovim) now, [nvim-jdtls](https://github.com/mfussenegger/nvim-jdtls) and [nvim-dap](https://github.com/mfussenegger/nvim-dap)
 # coc-java-vimspector
 
 Fork of [vscode-java-debug](https://github.com/microsoft/vscode-java-debug) to
